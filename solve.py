@@ -47,6 +47,19 @@ class Rate:
       stemming = [w if w in self.train_vocab else 'unk' for w in stemming]
     # Return text preprocessed
     return stemming
+  
+  def get_vocabs(self, preprocessed_data):
+    # Vocabs is vector of words in train data, with no duplicates by using set()
+    vocabs = set()
+    for doc in preprocessed_data:
+      for word in doc:
+        vocabs.add(word)
+    # Convert to list
+    vocabs = list(vocabs)
+    # Add 'unk' word to vocabs if it's not there, to handle 'unk' word from valid if valid's word not in train_vocab
+    if 'unk' not in vocabs:
+      vocabs.append('unk')
+    return vocabs
 
   def embedding(self, docs, is_training):
     unique = set()
